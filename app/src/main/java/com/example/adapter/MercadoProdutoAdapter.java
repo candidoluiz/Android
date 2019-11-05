@@ -1,6 +1,7 @@
 package com.example.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.dto.MercadoProdutoDto;
 import com.squareup.picasso.Picasso;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAdapter.ExampleViewHolder>{
@@ -19,6 +21,7 @@ public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAd
     private Context mContext;
     private ArrayList<MercadoProdutoDto> mExampleList;
     private MercadoProdutoAdapter.OnItemClickListener mListener;
+    private DecimalFormat df = new DecimalFormat("#,###.00");
 
     public interface OnItemClickListener{
         void onItemClick(int position);
@@ -48,7 +51,8 @@ public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAd
         String marca = currentItem.getProdutoDto().getMarca();
         String peso = currentItem.getProdutoDto().getMedida();
         String unMedida = currentItem.getProdutoDto().getUnMedida();
-        String preco =(String.valueOf(currentItem.getPreco()));
+        String preco = df.format(currentItem.getPreco());
+        
 
         Picasso.get().load(foto).fit().centerInside().into(holder.mImageView);
         holder.txtTipoProduto.setText(tipo);
