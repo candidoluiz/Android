@@ -45,7 +45,7 @@ public class MercadoAdapter extends RecyclerView.Adapter<MercadoAdapter.ExampleV
     public void onBindViewHolder(@NonNull ExampleViewHolder holder, int position) {
         MercadoDto currentItem = mExampleList.get(position);
         String imgUrl=currentItem.getFoto();
-        String nome = currentItem.getNome();
+        String nome = currentItem.getNome().toUpperCase();
         String bairro = currentItem.getBairro();
 
         holder.mTextView.setText(nome);
