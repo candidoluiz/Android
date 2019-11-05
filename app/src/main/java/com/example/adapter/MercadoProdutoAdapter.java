@@ -52,14 +52,14 @@ public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAd
         String peso = currentItem.getProdutoDto().getMedida();
         String unMedida = currentItem.getProdutoDto().getUnMedida();
         String preco = df.format(currentItem.getPreco());
-        
+
 
         Picasso.get().load(foto).fit().centerInside().into(holder.mImageView);
         holder.txtTipoProduto.setText(tipo);
         holder.txtMarcaProduto.setText(marca);
         holder.txtPesoProduto.setText(peso);
         holder.txtUnMedidaProduto.setText(unMedida);
-        holder.txtPrecoProduto.setText(preco);
+        holder.txtPrecoProduto.setText("R$ "+preco);
 
     }
 

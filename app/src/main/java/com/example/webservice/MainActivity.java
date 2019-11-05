@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -16,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.adapter.MercadoAdapter;
+import com.example.adapter.SpinnerAdapter;
 import com.example.dto.MercadoDto;
 import com.example.estaticas.Valores;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -31,9 +35,11 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
 
     private RecyclerView mRecyclerView;
     private MercadoAdapter mMercadoAdapter;
+    private SpinnerAdapter mSpinnerAdapter;
     private ArrayList<MercadoDto> mExampleList;
     private RequestQueue mRequestQueue;
     private FloatingActionButton mFab;
+    private Spinner mSpinner;
 
 
     @Override
@@ -46,10 +52,10 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mFab = findViewById(R.id.fab_id);
+        mSpinner = findViewById(R.id.main_spinner_cidade);
 
         mExampleList = new ArrayList<>();
         mRequestQueue = Volley.newRequestQueue(this);
-        Log.v("TAG3","create");
 
         parseJSON();
 
@@ -139,8 +145,9 @@ private void parseJSON()
                     //String foto = obj.getString("foto").substring(1);
                      //foto = url2+foto;
                     String foto = obj.getString("foto");
+                    String cidade = obj.getString("cidade");
 
-
+                    mercadoDto.setCidade(cidade);
                     mercadoDto.setMercadoId(mercadoId);
                     mercadoDto.setNome(nome);
                     mercadoDto.setFoto(foto);
@@ -159,6 +166,8 @@ private void parseJSON()
 
             mMercadoAdapter = new MercadoAdapter(MainActivity.this,mExampleList);
             mRecyclerView.setAdapter(mMercadoAdapter);
+            mSpinnerAdapter = new SpinnerAdapter(MainActivity.this,mExampleList);
+            mSpinner.setAdapter(mSpinnerAdapter);
             mMercadoAdapter.setOnItemClickListener(MainActivity.this);
 
         }

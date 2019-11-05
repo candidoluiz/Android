@@ -38,7 +38,7 @@ public class ProdutoActivity extends AppCompatActivity {
 
         Intent intent =getIntent();
 
-        String nome = intent.getStringExtra("nome");
+        String nome = intent.getStringExtra("nome").toUpperCase();
         int mercadoId = intent.getIntExtra("mercadoId",0);
 
         setTitle(nome);
