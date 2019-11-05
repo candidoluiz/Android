@@ -18,6 +18,15 @@ public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAd
 
     private Context mContext;
     private ArrayList<MercadoProdutoDto> mExampleList;
+    private MercadoProdutoAdapter.OnItemClickListener mListener;
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(MercadoProdutoAdapter.OnItemClickListener listener){
+        this.mListener = listener;
+    }
 
     public MercadoProdutoAdapter(Context mContext, ArrayList<MercadoProdutoDto> mExampleList) {
         this.mContext = mContext;
@@ -73,6 +82,19 @@ public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAd
             txtPesoProduto = itemView.findViewById(R.id.peso_produto);
             txtUnMedidaProduto = itemView.findViewById(R.id.unidade_medida_produto);
             txtPrecoProduto = itemView.findViewById(R.id.preco_produto);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(mListener != null)
+                    {
+                        int position = getAdapterPosition();
+                        if(position != RecyclerView.NO_POSITION){
+                            mListener.onItemClick(position);
+                        }
+                    }
+                }
+            });
         }
     }
 }

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -27,7 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MercadoAdapter.OnItemClickListener {
 
     private RecyclerView mRecyclerView;
     private MercadoAdapter mMercadoAdapter;
@@ -140,6 +141,7 @@ private void parseJSON()
 
             mMercadoAdapter = new MercadoAdapter(MainActivity.this,mExampleList);
             mRecyclerView.setAdapter(mMercadoAdapter);
+            mMercadoAdapter.setOnItemClickListener(MainActivity.this);
 
         }
     }, new Response.ErrorListener() {
@@ -153,5 +155,15 @@ private void parseJSON()
 
     }
 
+    @Override
+    public void onItemClick(int position) {
+        Intent intent = new Intent(this,ProdutoActivity.class);
+        MercadoDto mercadoDto = mExampleList.get(position);
+
+        intent.putExtra("nome",mercadoDto.getFoto());
+        intent.putExtra("mercadoId",mercadoDto.getMercadoId());
+        startActivity(intent);
+
+    }
 }
 

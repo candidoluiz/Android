@@ -17,6 +17,15 @@ public class MercadoAdapter extends RecyclerView.Adapter<MercadoAdapter.ExampleV
 
     private Context mContext;
     private ArrayList<MercadoDto> mExampleList;
+    private OnItemClickListener mListener;
+
+    public interface OnItemClickListener{
+        void onItemClick(int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.mListener = listener;
+    }
 
     public MercadoAdapter(Context context, ArrayList<MercadoDto> exampleList)
     {
@@ -61,6 +70,16 @@ public class MercadoAdapter extends RecyclerView.Adapter<MercadoAdapter.ExampleV
             mImageView = itemView.findViewById(R.id.imagem_mercado);
             mTextView = itemView.findViewById(R.id.nome_mercado);
             mBairro = itemView.findViewById(R.id.bairro_mercado);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    if(position != RecyclerView.NO_POSITION){
+                        mListener.onItemClick(position);
+                    }
+                }
+            });
         }
     }
 }
