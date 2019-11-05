@@ -1,24 +1,20 @@
 package com.example.webservice;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.MercadoAdapter;
+import com.example.adapter.MercadoAdapter;
 import com.example.dto.MercadoDto;
 import com.example.estaticas.Valores;
 
@@ -40,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        setTitle("Meeting Market");
 
         mRecyclerView=findViewById(R.id.recycle_mercado);
         mRecyclerView.setHasFixedSize(true);
@@ -103,9 +100,9 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
 */
 private void parseJSON()
 {
-    // String url=" http://www.mocky.io/v2/5db2443a350000b61bf54f1f";
-    //String url="http://10.10.85.170:8080/Mercado/rest/ws/listarMercados";
-     String url = Valores.URL+"/Mercado/rest/ws/listarMercados";
+     //String url=" http://www.mocky.io/v2/5db2443a350000b61bf54f1f";
+    String url=Valores.URL_MERCADO;
+     //String url = Valores.URL+"/Mercado/rest/ws/listarMercados";
     Log.v("TAG3","create");
 
     JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -119,11 +116,15 @@ private void parseJSON()
                 try {
                     JSONObject obj = response.getJSONObject(i);
                     MercadoDto mercadoDto = new MercadoDto();
+                    int mercadoId = obj.getInt("mercadoId");
                     String bairro = obj.getString("bairro");
                     String nome = obj.getString("nome");
-                    String foto = obj.getString("foto").substring(1);
-                     foto = url2+foto;
+                    //String foto = obj.getString("foto").substring(1);
+                     //foto = url2+foto;
+                    String foto = obj.getString("foto");
 
+
+                    mercadoDto.setMercadoId(mercadoId);
                     mercadoDto.setNome(nome);
                     mercadoDto.setFoto(foto);
                     mercadoDto.setBairro(bairro);
@@ -160,7 +161,8 @@ private void parseJSON()
         Intent intent = new Intent(this,ProdutoActivity.class);
         MercadoDto mercadoDto = mExampleList.get(position);
 
-        intent.putExtra("nome",mercadoDto.getFoto());
+        intent.putExtra("foto",mercadoDto.getFoto());
+        intent.putExtra("nome",mercadoDto.getNome());
         intent.putExtra("mercadoId",mercadoDto.getMercadoId());
         startActivity(intent);
 

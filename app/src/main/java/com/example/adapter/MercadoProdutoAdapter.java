@@ -1,4 +1,4 @@
-package com.example;
+package com.example.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -50,7 +50,7 @@ public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAd
         String unMedida = currentItem.getProdutoDto().getUnMedida();
         String preco =(String.valueOf(currentItem.getPreco()));
 
-        Picasso.get().load(foto).centerInside().into(holder.mImageView);
+        Picasso.get().load(foto).fit().centerInside().into(holder.mImageView);
         holder.txtTipoProduto.setText(tipo);
         holder.txtMarcaProduto.setText(marca);
         holder.txtPesoProduto.setText(peso);

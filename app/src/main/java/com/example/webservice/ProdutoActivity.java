@@ -1,10 +1,12 @@
 package com.example.webservice;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -12,7 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.MercadoProdutoAdapter;
+import com.example.adapter.MercadoProdutoAdapter;
 import com.example.dto.MercadoProdutoDto;
 import com.example.dto.ProdutoDto;
 import com.example.estaticas.Valores;
@@ -34,6 +36,13 @@ public class ProdutoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_produto);
 
+        Intent intent =getIntent();
+
+        String nome = intent.getStringExtra("nome");
+        int mercadoId = intent.getIntExtra("mercadoId",0);
+
+        setTitle(nome);
+
         mRecyclerView = findViewById(R.id.recycle_produto);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -46,7 +55,7 @@ public class ProdutoActivity extends AppCompatActivity {
 
     private void parseJSON()
     {
-        String url="";
+        String url=Valores.URL_PRODUTO;
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,url,null, new Response.Listener<JSONArray>() {
             @Override
@@ -60,10 +69,21 @@ public class ProdutoActivity extends AppCompatActivity {
                         MercadoProdutoDto mercadoProdutoDto = new MercadoProdutoDto();
                         ProdutoDto produtoDto = new ProdutoDto();
 
-                        String foto = obj.getString("foto").substring(1);
-                        foto = url2+foto;
+                        //String foto = obj.getString("foto").substring(1);
+                        //foto = url2+foto;
+                        String foto = obj.getString("foto");
                         String tipo = obj.getString("tipo");
+                        String medida = obj.getString("medida");
+                        String unMedida = obj.getString("unMedida");
+                        String marca = obj.getString("marca");
+                        double preco = Double.parseDouble(obj.getString("preco"));
+
+                        produtoDto.setFoto(foto);
                         produtoDto.setTipo(tipo);
+                        produtoDto.setMarca(marca);
+                        produtoDto.setMedida(medida);
+                        produtoDto.setUnMedida(unMedida);
+                        mercadoProdutoDto.setPreco(preco);
                         mercadoProdutoDto.setProdutoDto(produtoDto);
                         mExampleList.add(mercadoProdutoDto);
 
@@ -71,6 +91,9 @@ public class ProdutoActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                mMercadoProdutoAdapter = new MercadoProdutoAdapter(ProdutoActivity.this,mExampleList);
+                mRecyclerView.setAdapter(mMercadoProdutoAdapter);
+
             }
         }, new Response.ErrorListener() {
         @Override
@@ -78,5 +101,6 @@ public class ProdutoActivity extends AppCompatActivity {
             error.printStackTrace();
         }
     });
+        mRequestQueue.add(request);
     }
 }
