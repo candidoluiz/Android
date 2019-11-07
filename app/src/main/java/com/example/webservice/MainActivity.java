@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
         mExampleList = new ArrayList<>();
         mRequestQueue = Volley.newRequestQueue(this);
 
+
         parseJSON();
 
         Scanear();
