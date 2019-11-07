@@ -1,5 +1,6 @@
 package com.example.webservice;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,7 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -28,6 +28,7 @@ import com.example.dto.MercadoDto;
 import com.example.estaticas.Valores;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.zxing.integration.android.IntentIntegrator;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +45,9 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
     private RequestQueue mRequestQueue;
     private FloatingActionButton mFab;
     private Spinner mSpinner;
+    private  Activity activity;
+
+
 
 
     @Override
@@ -51,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setTitle("Meeting Market");
+         activity = this;
 
         mRecyclerView=findViewById(R.id.recycle_mercado);
         mRecyclerView.setHasFixedSize(true);
@@ -88,8 +93,12 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Codificar esse botão", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                IntentIntegrator integrator = new IntentIntegrator(activity);
+                integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+                integrator.setPrompt("Camera Scan");
+                integrator.setCameraId(0);
+                integrator.initiateScan();
+
             }
         });
     }
