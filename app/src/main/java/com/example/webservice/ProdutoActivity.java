@@ -37,20 +37,29 @@ public class ProdutoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_produto);
 
         Intent intent =getIntent();
+        String cod = intent.getStringExtra("cod");
 
-        String nome = intent.getStringExtra("nome").toUpperCase();
-        int mercadoId = intent.getIntExtra("mercadoId",0);
+        if(cod.equals("2"))
+        {
+            String nome = intent.getStringExtra("nome").toUpperCase();
+            int mercadoId = intent.getIntExtra("mercadoId",0);
 
-        setTitle(nome);
+            setTitle(nome);
 
-        mRecyclerView = findViewById(R.id.recycle_produto);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            mRecyclerView = findViewById(R.id.recycle_produto);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mExampleList = new ArrayList<>();
-        mRequestQueue = Volley.newRequestQueue(this);
+            mExampleList = new ArrayList<>();
+            mRequestQueue = Volley.newRequestQueue(this);
 
-        parseJSON();
+            parseJSON();
+        }else{
+            setTitle("LISTA DE PRODUTOS");
+        }
+
+
+
     }
 
     private void parseJSON()

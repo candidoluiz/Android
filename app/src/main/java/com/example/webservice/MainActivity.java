@@ -77,7 +77,11 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        return super.onOptionsItemSelected(item);
+        Intent intent = new Intent(this,ProdutoActivity.class);
+        intent.putExtra("cod","1");
+        startActivity(intent);
+        //return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private void Scanear() {
@@ -204,6 +208,7 @@ private void parseJSON()
         Intent intent = new Intent(this,ProdutoActivity.class);
         MercadoDto mercadoDto = mExampleList.get(position);
 
+        intent.putExtra("cod","2");
         intent.putExtra("foto",mercadoDto.getFoto());
         intent.putExtra("nome",mercadoDto.getNome());
         intent.putExtra("mercadoId",mercadoDto.getMercadoId());

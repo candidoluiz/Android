@@ -21,7 +21,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/layout_lista_produto_mercado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="@color/colorPrimaryDark"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
+
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -67,6 +82,8 @@
                     android:textColor="@android:color/black"
                     android:text="Basilar"
                     android:layout_marginLeft="10dp"/>
+
+
             </LinearLayout>
 
 
@@ -90,6 +107,7 @@
 
             </RelativeLayout>
 
+        </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
