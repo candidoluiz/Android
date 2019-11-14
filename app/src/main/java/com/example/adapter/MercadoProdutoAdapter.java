@@ -5,8 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.filter.CustomFilter;
 import com.example.webservice.R;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,12 +20,14 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAdapter.ExampleViewHolder>{
+public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAdapter.ExampleViewHolder> {
 
     private Context mContext;
-    private ArrayList<MercadoProdutoDto> mExampleList;
+    public ArrayList<MercadoProdutoDto> mExampleList;
     private MercadoProdutoAdapter.OnItemClickListener mListener;
     private DecimalFormat df = new DecimalFormat("#,###.00");
+
+
 
     public interface OnItemClickListener{
         void onItemClick(int position);

@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
     private FloatingActionButton mFab;
     private Spinner mSpinner;
     private  Activity activity;
+    private int mercadoId;
 
 
 
@@ -174,14 +175,14 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
 private void parseJSON()
 {
      //String url=" http://www.mocky.io/v2/5db2443a350000b61bf54f1f";
-    String url=Valores.URL_MERCADO;
-     //String url = Valores.URL+"/Mercado/rest/ws/listarMercados";
+    //String url=Valores.URL_MERCADO;
+     String url = Valores.URL_CASA+"/Mercado/rest/ws/listarMercados";
     Log.v("TAG3","create");
 
     JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
         @Override
         public void onResponse(JSONArray response) {
-            String url2=Valores.URL+"/Mercado";
+            String url2=Valores.URL_CASA+"/Mercado";
 
 
             for (int i = 0; i < response.length(); i++)
@@ -189,12 +190,12 @@ private void parseJSON()
                 try {
                     JSONObject obj = response.getJSONObject(i);
                     MercadoDto mercadoDto = new MercadoDto();
-                    int mercadoId = obj.getInt("mercadoId");
+                    mercadoId = obj.getInt("mercadoId");
                     String bairro = obj.getString("bairro");
                     String nome = obj.getString("nome");
-                    //String foto = obj.getString("foto").substring(1);
-                     //foto = url2+foto;
-                    String foto = obj.getString("foto");
+                    String foto = obj.getString("foto").substring(1);
+                     foto = url2+foto;
+                    //String foto = obj.getString("foto");
                     String cidade = obj.getString("cidade");
 
                     mercadoDto.setCidade(cidade);

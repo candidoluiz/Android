@@ -36,6 +36,8 @@ public class ProdutoActivity extends AppCompatActivity {
     private MercadoProdutoAdapter mMercadoProdutoAdapter;
     private ArrayList<MercadoProdutoDto> mExampleList;
     private RequestQueue mRequestQueue;
+    private int mercadoId = -1;
+    private String url = Valores.URL_CASA;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,9 @@ public class ProdutoActivity extends AppCompatActivity {
         if(cod.equals("2"))
         {
             String nome = intent.getStringExtra("nome").toUpperCase();
-            int mercadoId = intent.getIntExtra("mercadoId",0);
+            mercadoId = intent.getIntExtra("mercadoId",0);
+            url = url+"/Mercado/rest/ws/listarProdutoDeMercado/"+mercadoId;
+            Log.v("URL",url);
 
             setTitle(nome);
 
@@ -59,9 +63,20 @@ public class ProdutoActivity extends AppCompatActivity {
             mExampleList = new ArrayList<>();
             mRequestQueue = Volley.newRequestQueue(this);
 
-            parseJSON();
+            carregarProdutoMercado();
         }else{
             setTitle("LISTA DE PRODUTOS");
+
+            url = url+"/Mercado/rest/ws/listarProdutos/";
+
+            mRecyclerView = findViewById(R.id.recycle_produto);
+            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+            mExampleList = new ArrayList<>();
+            mRequestQueue = Volley.newRequestQueue(this);
+
+            parseJSON();
         }
 
 
@@ -86,15 +101,15 @@ public class ProdutoActivity extends AppCompatActivity {
         return true;
     }
 
-
-    private void parseJSON()
+    private void carregarProdutoMercado()
     {
-        String url=Valores.URL_PRODUTO;
+        //String url=Valores.URL_PRODUTO+"/Mercado/rest/ws/listarProdutos";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,url,null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                String url2= Valores.URL+"";
+                String url2= Valores.URL_CASA+"/Mercado";
+
 
                 for (int i = 0; i < response.length(); i++)
                 {
@@ -103,14 +118,82 @@ public class ProdutoActivity extends AppCompatActivity {
                         MercadoProdutoDto mercadoProdutoDto = new MercadoProdutoDto();
                         ProdutoDto produtoDto = new ProdutoDto();
 
+                        //Log.v("TESTE-JSONS",obj.getJSONObject("produtoDto").getString("foto"));
+
+
                         //String foto = obj.getString("foto").substring(1);
                         //foto = url2+foto;
+
+                        String foto = obj.getJSONObject("produtoDto").getString("foto").substring(1);
+                        foto = url2+foto;
+
+                        Log.v("TESTE-JSONS",foto);
+                        String tipo = obj.getJSONObject("produtoDto").getString("tipo");
+                        String medida = obj.getJSONObject("produtoDto").getString("medida");
+                        String unMedida = obj.getJSONObject("produtoDto").getString("unMedida");
+                        String marca = obj.getJSONObject("produtoDto").getString("marca");
+                        double preco = Double.parseDouble(obj.getString("preco"));
+
+
+
+                        produtoDto.setFoto(foto);
+                        produtoDto.setTipo(tipo);
+                        produtoDto.setMarca(marca);
+                        produtoDto.setMedida(medida);
+                        produtoDto.setUnMedida(unMedida);
+                        mercadoProdutoDto.setPreco(preco);
+                        mercadoProdutoDto.setProdutoDto(produtoDto);
+                        mExampleList.add(mercadoProdutoDto);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                mMercadoProdutoAdapter = new MercadoProdutoAdapter(ProdutoActivity.this,mExampleList);
+                mRecyclerView.setAdapter(mMercadoProdutoAdapter);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+        mRequestQueue.add(request);
+    }
+
+
+    private void parseJSON()
+    {
+        //String url=Valores.URL_PRODUTO+"/Mercado/rest/ws/listarProdutos";
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,url,null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                String url2= Valores.URL+"/Mercado";
+
+
+                for (int i = 0; i < response.length(); i++)
+                {
+                    try {
+                        JSONObject obj = response.getJSONObject(i);
+                        MercadoProdutoDto mercadoProdutoDto = new MercadoProdutoDto();
+                        ProdutoDto produtoDto = new ProdutoDto();
+
+                        Log.v("TESTE-JSONS",obj.getJSONObject("produtoDto").getString("foto"));
+
+
+                        //String foto = obj.getString("foto").substring(1);
+                        //foto = url2+foto;
+
                         String foto = obj.getString("foto");
                         String tipo = obj.getString("tipo");
                         String medida = obj.getString("medida");
                         String unMedida = obj.getString("unMedida");
                         String marca = obj.getString("marca");
                         double preco = Double.parseDouble(obj.getString("preco"));
+                        String foto2 = obj.getString("produtoDto");
+
 
                         produtoDto.setFoto(foto);
                         produtoDto.setTipo(tipo);
