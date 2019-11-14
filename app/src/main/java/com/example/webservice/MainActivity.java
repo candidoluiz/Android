@@ -86,6 +86,10 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
             {
                 Toast.makeText(this, "Cancelado", Toast.LENGTH_LONG).show();
             }else {
+                Intent intent = new Intent(MainActivity.this,ProdutoActivity.class);
+                intent.putExtra("codBarra",result.getContents());
+                intent.putExtra("cod","3");
+                startActivity(intent);
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
             }
         }else {
