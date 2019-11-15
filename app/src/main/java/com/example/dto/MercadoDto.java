@@ -26,6 +26,10 @@ public class MercadoDto {
         this.uf = uf;
     }
 
+    public MercadoDto(String cidade) {
+        this.cidade = cidade;
+    }
+
     public int getMercadoId() {
         return mercadoId;
     }

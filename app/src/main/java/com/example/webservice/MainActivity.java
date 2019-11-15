@@ -8,16 +8,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -28,8 +27,8 @@ import com.example.adapter.MercadoAdapter;
 import com.example.adapter.SpinnerAdapter;
 import com.example.dto.MercadoDto;
 import com.example.estaticas.Valores;
+import com.example.json.CidadeJson;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -71,7 +70,10 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
         mRequestQueue = Volley.newRequestQueue(this);
 
 
+        CidadeJson city = new CidadeJson(MainActivity.this,mSpinner);
+        city.retornarCidades();
         parseJSON();
+
 
         Scanear();
 
@@ -202,6 +204,7 @@ private void parseJSON()
                     //String foto = obj.getString("foto");
                     String cidade = obj.getString("cidade");
 
+
                     mercadoDto.setCidade(cidade);
                     mercadoDto.setMercadoId(mercadoId);
                     mercadoDto.setNome(nome);
@@ -212,6 +215,7 @@ private void parseJSON()
                     mExampleList.add(mercadoDto);
 
 
+
                 }
 
                 catch (JSONException e) {
@@ -219,11 +223,15 @@ private void parseJSON()
                 }
             }
 
+
+
+
             mMercadoAdapter = new MercadoAdapter(MainActivity.this,mExampleList);
             mRecyclerView.setAdapter(mMercadoAdapter);
-            mSpinnerAdapter = new SpinnerAdapter(MainActivity.this,mExampleList);
-            mSpinner.setAdapter(mSpinnerAdapter);
+           // mSpinnerAdapter = new SpinnerAdapter(MainActivity.this,mExampleList);
+            //mSpinner.setAdapter(mSpinnerAdapter);
             mMercadoAdapter.setOnItemClickListener(MainActivity.this);
+
 
         }
     }, new Response.ErrorListener() {

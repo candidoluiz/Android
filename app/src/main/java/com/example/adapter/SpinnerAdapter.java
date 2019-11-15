@@ -10,6 +10,8 @@ import com.example.dto.MercadoDto;
 import com.example.webservice.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 
 public class SpinnerAdapter extends BaseAdapter{
 
@@ -23,6 +25,7 @@ public class SpinnerAdapter extends BaseAdapter{
 
     @Override
     public int getCount() {
+
         return mExampleList.size();
     }
 

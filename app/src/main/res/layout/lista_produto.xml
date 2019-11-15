@@ -16,7 +16,7 @@
 
         <ImageView
             android:id="@+id/imagem_produto"
-            android:layout_width="100dp"
+            android:layout_width="80dp"
             android:layout_height="100dp"
             android:src="@mipmap/ic_launcher"/>
 
@@ -34,86 +34,83 @@
                 android:textStyle="bold"
                 android:textColor="@color/colorPrimaryDark"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:padding="10dp">
+                android:orientation="horizontal">
+
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
 
 
 
-                <TextView
-                    android:id="@+id/tipo_produto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Macarrão"
-                    android:textColor="@android:color/black"/>
+                        <TextView
+                            android:id="@+id/tipo_produto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Acucar-Refinado"
+                            android:textColor="@android:color/black"/>
 
-                <TextView
-                    android:id="@+id/peso_produto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="500"
-                    android:layout_marginLeft="10dp"/>
+                        <TextView
+                            android:id="@+id/peso_produto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:text="500"
+                            android:layout_marginLeft="10dp"/>
+
+                        <TextView
+                            android:id="@+id/unidade_medida_produto"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@android:color/black"
+                            android:text="Ml"/>
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/unidade_medida_produto"
+                        android:id="@+id/marca_produto"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@android:color/black"
-                        android:text="g"/>
+                        android:text="Basilar"
+                        android:layout_marginLeft="10dp"/>
+
+
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/marca_produto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="Basilar"
-                    android:layout_marginLeft="10dp"/>
 
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center|right">
+
+                    <TextView
+                        android:id="@+id/preco_produto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:text="R$44,50"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_gravity="center|right"/>
+
+
+
+                </RelativeLayout>
 
             </LinearLayout>
-
-
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center|right">
-
-                <TextView
-                    android:id="@+id/preco_produto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="28dp"
-                    android:text="R$4,50"
-                    android:textColor="@android:color/black"
-                    android:layout_gravity="center|right"/>
-
-
-
-            </RelativeLayout>
-
-        </LinearLayout>
         </LinearLayout>
 
     </LinearLayout>
-
-
-
 </androidx.cardview.widget.CardView>

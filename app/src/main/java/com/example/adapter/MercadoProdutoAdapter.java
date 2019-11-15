@@ -20,13 +20,23 @@ import com.squareup.picasso.Picasso;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAdapter.ExampleViewHolder> {
+public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAdapter.ExampleViewHolder> implements Filterable{
 
     private Context mContext;
-    public ArrayList<MercadoProdutoDto> mExampleList;
+    public ArrayList<MercadoProdutoDto> mExampleList, filterList;
     private MercadoProdutoAdapter.OnItemClickListener mListener;
     private DecimalFormat df = new DecimalFormat("#,###.00");
+    private CustomFilter filter;
 
+    @Override
+    public Filter getFilter() {
+        if (filter == null)
+        {
+            filter = new CustomFilter(this, filterList);
+
+        }
+        return filter;
+    }
 
 
     public interface OnItemClickListener{
@@ -40,6 +50,7 @@ public class MercadoProdutoAdapter extends RecyclerView.Adapter<MercadoProdutoAd
     public MercadoProdutoAdapter(Context mContext, ArrayList<MercadoProdutoDto> mExampleList) {
         this.mContext = mContext;
         this.mExampleList = mExampleList;
+        this.filterList = mExampleList;
     }
 
     @NonNull
