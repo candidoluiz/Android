@@ -9,8 +9,8 @@ import java.util.ArrayList;
 
 public class TodosProdutosFilter extends Filter {
 
-    ArrayList<MercadoProdutoDto> filterList;
     TodosProdutosAdapter mTodosProdutosAdapter;
+    ArrayList<MercadoProdutoDto> filterList;
 
     public TodosProdutosFilter(TodosProdutosAdapter mTodosProdutosAdapter, ArrayList<MercadoProdutoDto> filterList) {
         this.filterList = filterList;
@@ -20,8 +20,8 @@ public class TodosProdutosFilter extends Filter {
     @Override
     protected FilterResults performFiltering(CharSequence constraint) {
         FilterResults results = new FilterResults();
+        if(constraint != null && constraint.length() > 0)
         {
-            if (constraint != null && constraint.length() > 0) {
                 constraint = constraint.toString().toUpperCase();
                 ArrayList<MercadoProdutoDto> filteredModels = new ArrayList<>();
                 for (int i = 0; i < filterList.size(); i++) {
@@ -38,7 +38,7 @@ public class TodosProdutosFilter extends Filter {
             }
             return results;
         }
-    }
+
 
     @Override
     protected void publishResults(CharSequence constraint, FilterResults results) {

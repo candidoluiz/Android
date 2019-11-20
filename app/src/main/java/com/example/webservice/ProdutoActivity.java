@@ -27,6 +27,7 @@ import com.example.adapter.TodosProdutosAdapter;
 import com.example.dto.MercadoProdutoDto;
 import com.example.dto.ProdutoDto;
 import com.example.estaticas.Valores;
+import com.example.json.ProdutosJson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -42,6 +43,7 @@ public class ProdutoActivity extends AppCompatActivity {
     private RequestQueue mRequestQueue;
     private int mercadoId = -1;
     private String url = Valores.URL_CASA;
+    String cod="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +51,9 @@ public class ProdutoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_produto);
 
         Intent intent =getIntent();
-        String cod = intent.getStringExtra("cod");
+       // String cod = intent.getStringExtra("cod");
 
-        if(cod.equals("2"))
-        {
+
             String nome = intent.getStringExtra("nome").toUpperCase();
             mercadoId = intent.getIntExtra("mercadoId",0);
             url = url+"/Mercado/rest/ws/listarProdutoDeMercado/"+mercadoId;
@@ -68,7 +69,8 @@ public class ProdutoActivity extends AppCompatActivity {
             mRequestQueue = Volley.newRequestQueue(this);
 
             carregarProdutoMercado();
-        }else{
+
+       /* else{
             setTitle("LISTA DE PRODUTOS");
 
             url = url+"/Mercado/rest/ws/listarTodosProdutos/";
@@ -80,8 +82,12 @@ public class ProdutoActivity extends AppCompatActivity {
             mExampleList = new ArrayList<>();
             mRequestQueue = Volley.newRequestQueue(this);
 
-            parseJSON();
-        }
+           // ProdutosJson produtosJson = new ProdutosJson(this, mExampleList,mRequestQueue,mRecyclerView);
+           // produtosJson.retornarTodosProdutos();
+
+            //parseJSON();
+            */
+
 
 
     }
@@ -95,13 +101,18 @@ public class ProdutoActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mMercadoProdutoAdapter.getFilter().filter(query);
+
+                    mMercadoProdutoAdapter.getFilter().filter(query);
+
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
+
                 mMercadoProdutoAdapter.getFilter().filter(newText);
+
                 return false;
             }
         });

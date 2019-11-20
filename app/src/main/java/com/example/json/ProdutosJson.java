@@ -2,12 +2,15 @@ package com.example.json;
 
 import android.content.Context;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.example.adapter.SpinnerAdapter;
+import com.example.adapter.TodosProdutosAdapter;
 import com.example.dto.MercadoDto;
 import com.example.dto.MercadoProdutoDto;
 import com.example.dto.ProdutoDto;
@@ -22,12 +25,19 @@ import java.util.ArrayList;
 public class ProdutosJson {
 
     private ArrayList<MercadoProdutoDto> mExampleList = new ArrayList<>();
-    private SpinnerAdapter mSpinnerAdapter;
+    //private SpinnerAdapter mSpinnerAdapter;
     private Context context;
     private RequestQueue mRequestQueue;
+    private TodosProdutosAdapter mTodosProdutosAdapter;
+    private RecyclerView mRecyclerView;
 
-    public ProdutosJson(Context context){
+    public ProdutosJson(Context context, ArrayList<MercadoProdutoDto> mExampleList, RequestQueue mRequestQueue, RecyclerView mRecyclerView,TodosProdutosAdapter mTodosProdutosAdapter){
         this.context= context;
+        this.mRecyclerView = mRecyclerView;
+        this.mRequestQueue = mRequestQueue;
+        this.mExampleList = mExampleList;
+        this.mTodosProdutosAdapter = mTodosProdutosAdapter;
+
 
     }
 
@@ -77,13 +87,17 @@ public class ProdutosJson {
                         e.printStackTrace();
                     }
                 }
+                mTodosProdutosAdapter = new TodosProdutosAdapter(context, mExampleList);
+                mRecyclerView.setAdapter(mTodosProdutosAdapter);
 
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
 
             }
         });
+        mRequestQueue.add(request);
     }
 }

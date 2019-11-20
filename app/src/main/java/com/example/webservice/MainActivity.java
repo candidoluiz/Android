@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Intent intent = new Intent(this,ProdutoActivity.class);
-        intent.putExtra("cod","1");
+        Intent intent = new Intent(this,MercadoProdutoActivity.class);
+       // intent.putExtra("cod","1");
         startActivity(intent);
         //return super.onOptionsItemSelected(item);
         return true;

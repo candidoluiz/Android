@@ -9,13 +9,11 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.dto.MercadoProdutoDto;
-import com.example.filter.CustomFilter;
 import com.example.filter.TodosProdutosFilter;
 import com.example.webservice.R;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+import com.example.dto.MercadoProdutoDto;
 import com.squareup.picasso.Picasso;
 
 import java.text.DecimalFormat;
@@ -28,6 +26,12 @@ public class TodosProdutosAdapter extends RecyclerView.Adapter<TodosProdutosAdap
     private TodosProdutosAdapter.OnItemClickListener mListener;
     private DecimalFormat df = new DecimalFormat("#,###.00");
     private TodosProdutosFilter filter;
+
+    public TodosProdutosAdapter(Context mContext, ArrayList<MercadoProdutoDto> mExampleList) {
+        this.mContext = mContext;
+        this.mExampleList = mExampleList;
+        this.filterList = mExampleList;
+    }
 
     @Override
     public Filter getFilter() {
@@ -88,11 +92,6 @@ public class TodosProdutosAdapter extends RecyclerView.Adapter<TodosProdutosAdap
         this.mListener = listener;
     }
 
-    public TodosProdutosAdapter(Context mContext, ArrayList<MercadoProdutoDto> mExampleList) {
-        this.mContext = mContext;
-        this.mExampleList = mExampleList;
-        this.filterList = mExampleList;
-    }
 
     public class ExampleViewHolder extends RecyclerView.ViewHolder{
         public ImageView mImageView;

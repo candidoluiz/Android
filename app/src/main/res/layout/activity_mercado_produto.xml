@@ -6,4 +6,13 @@
     android:layout_height="match_parent"
     tools:context=".MercadoProdutoActivity">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycle_mercado_produto"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:background="@android:color/darker_gray">
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
