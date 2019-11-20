@@ -23,6 +23,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.adapter.MercadoProdutoAdapter;
+import com.example.adapter.TodosProdutosAdapter;
 import com.example.dto.MercadoProdutoDto;
 import com.example.dto.ProdutoDto;
 import com.example.estaticas.Valores;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 public class ProdutoActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private MercadoProdutoAdapter mMercadoProdutoAdapter;
+    private TodosProdutosAdapter mTodosProdutosAdapter;
     private ArrayList<MercadoProdutoDto> mExampleList;
     private RequestQueue mRequestQueue;
     private int mercadoId = -1;
@@ -69,7 +71,7 @@ public class ProdutoActivity extends AppCompatActivity {
         }else{
             setTitle("LISTA DE PRODUTOS");
 
-            url = url+"/Mercado/rest/ws/listarProdutos/";
+            url = url+"/Mercado/rest/ws/listarTodosProdutos/";
 
             mRecyclerView = findViewById(R.id.recycle_produto);
             mRecyclerView.setHasFixedSize(true);
@@ -224,8 +226,8 @@ public class ProdutoActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-                mMercadoProdutoAdapter = new MercadoProdutoAdapter(ProdutoActivity.this,mExampleList);
-                mRecyclerView.setAdapter(mMercadoProdutoAdapter);
+                mTodosProdutosAdapter = new TodosProdutosAdapter(ProdutoActivity.this,mExampleList);
+                mRecyclerView.setAdapter(mTodosProdutosAdapter);
 
             }
         }, new Response.ErrorListener() {
