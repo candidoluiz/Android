@@ -7,6 +7,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -46,8 +47,16 @@ public class MercadoProdutoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mercado_produto);
 
         setTitle("LISTA DE PRODUTOS");
+        Intent intent =getIntent();
+        String barCode = intent.getStringExtra("codBarra");
+        if(barCode==null)
+        {
+            url = url+"/Mercado/rest/ws/listarTodosProdutos/";
+        }else
+        {
+            url = url+"/Mercado/rest/ws/listarCodBarra/"+barCode;
+        }
 
-        url = url+"/Mercado/rest/ws/listarTodosProdutos/";
 
         mRecyclerView = findViewById(R.id.recycle_mercado_produto);
         mRecyclerView.setHasFixedSize(true);
@@ -102,7 +111,7 @@ public class MercadoProdutoActivity extends AppCompatActivity {
 
     public void retornarTodosProdutos()
     {
-        String url = Valores.URL_CASA+"/Mercado/rest/ws/listarTodosProdutos";
+        //String url = Valores.URL_CASA+"/Mercado/rest/ws/listarTodosProdutos";
 
         JsonArrayRequest request = new  JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
 
@@ -141,6 +150,8 @@ public class MercadoProdutoActivity extends AppCompatActivity {
                         mercadoProdutoDto.setProdutoDto(produtoDto);
                         mercadoProdutoDto.setMercadoDto(mercadoDto);
                         mExampleList.add(mercadoProdutoDto);
+
+
 
                     } catch (JSONException e) {
                         e.printStackTrace();

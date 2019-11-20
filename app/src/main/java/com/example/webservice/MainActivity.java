@@ -25,7 +25,10 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.adapter.MercadoAdapter;
 import com.example.adapter.SpinnerAdapter;
+import com.example.adapter.TodosProdutosAdapter;
 import com.example.dto.MercadoDto;
+import com.example.dto.MercadoProdutoDto;
+import com.example.dto.ProdutoDto;
 import com.example.estaticas.Valores;
 import com.example.json.CidadeJson;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -37,6 +40,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements MercadoAdapter.OnItemClickListener {
 
@@ -44,11 +48,14 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
     private MercadoAdapter mMercadoAdapter;
     private SpinnerAdapter mSpinnerAdapter;
     private ArrayList<MercadoDto> mExampleList;
+    private  ArrayList<MercadoProdutoDto> listas;
+    private int teste;
     private RequestQueue mRequestQueue;
     private FloatingActionButton mFab;
     private Spinner mSpinner;
     private  Activity activity;
     private int mercadoId;
+    private TodosProdutosAdapter mTodosProdutosAdapter;
 
 
 
@@ -67,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
         mSpinner = findViewById(R.id.main_spinner_cidade);
 
         mExampleList = new ArrayList<>();
+
         mRequestQueue = Volley.newRequestQueue(this);
 
 
@@ -88,11 +96,21 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
             {
                 Toast.makeText(this, "Cancelado", Toast.LENGTH_LONG).show();
             }else {
-                Intent intent = new Intent(MainActivity.this,ProdutoActivity.class);
-                intent.putExtra("codBarra",result.getContents());
-                intent.putExtra("cod","3");
-                startActivity(intent);
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+              lista(Valores.URL_CASA+"/Mercado/rest/ws/listarCodBarra/"+result.getContents());
+//                if (teste.size()>0)
+//                {
+
+                    Intent intent = new Intent(MainActivity.this,MercadoProdutoActivity.class);
+                    //Intent intent = new Intent(MainActivity.this,SemItensActivity.class);
+                    intent.putExtra("codBarra",result.getContents());
+                    intent.putExtra("cod","3");
+                    startActivity(intent);
+                    Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+//                }else{
+//                    Intent intent = new Intent(MainActivity.this,SemItensActivity.class);
+//                    startActivity(intent);
+//                }
+
             }
         }else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -255,6 +273,73 @@ private void parseJSON()
         intent.putExtra("nome",mercadoDto.getNome());
         intent.putExtra("mercadoId",mercadoDto.getMercadoId());
         startActivity(intent);
+
+    }
+
+    public void lista(String url)
+    {
+
+
+        listas = new ArrayList<>();
+        JsonArrayRequest request = new  JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+
+            @Override
+            public void onResponse(JSONArray response) {
+                Log.v("RESPOSTA",response.toString());
+                String url2= Valores.URL_CASA+"/Mercado";
+                for (int i= 0; i< response.length(); i++)
+                {
+                    try {
+                        JSONObject obj = response.getJSONObject(i);
+                        MercadoProdutoDto mercadoProdutoDto = new MercadoProdutoDto();
+                        ProdutoDto produtoDto = new ProdutoDto();
+                        MercadoDto mercadoDto = new MercadoDto();
+
+                        String foto = obj.getJSONObject("produtoDto").getString("foto").substring(1);
+                        foto = url2+foto;
+
+                        String tipo = obj.getJSONObject("produtoDto").getString("tipo");
+                        String medida = obj.getJSONObject("produtoDto").getString("medida");
+                        String unMedida = obj.getJSONObject("produtoDto").getString("unMedida");
+                        String marca = obj.getJSONObject("produtoDto").getString("marca");
+                        String nome = obj.getJSONObject("mercadoDto").getString("nome");
+                        String bairro = obj.getJSONObject("mercadoDto").getString("bairro");
+                        String cidade = obj.getJSONObject("mercadoDto").getString("cidade");
+                        double preco = Double.parseDouble(obj.getString("preco"));
+
+                        produtoDto.setTipo(tipo);
+
+//                        produtoDto.setFoto(foto);
+//
+//                        produtoDto.setMarca(marca);
+//                        produtoDto.setMedida(medida);
+//                        produtoDto.setUnMedida(unMedida);
+//                        mercadoProdutoDto.setPreco(preco);
+                        mercadoProdutoDto.setProdutoDto(produtoDto);
+                        mercadoProdutoDto.setMercadoDto(mercadoDto);
+                        listas.add(mercadoProdutoDto);
+
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+
+            }
+        });
+
+
+        mRequestQueue.add(request);
+
+
 
     }
 }
