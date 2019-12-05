@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
     private TodosProdutosAdapter mTodosProdutosAdapter;
     private CidadeJson city;
     MercadoDto m;
+    String cidade;
 
 
 
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                  m  = (MercadoDto) adapterView.getSelectedItem();
                 //Toast.makeText(MainActivity.this,String.valueOf(m.getCidade()), Toast.LENGTH_SHORT).show();
+                cidade = m.getCidade();
             }
 
             @Override
@@ -99,11 +101,19 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
         Scanear();
 
 //        MercadosFragment mercadosFragment = new MercadosFragment(this);
-//        Bundle bundle = new Bundle();
-//        bundle.putString("cidade", m.getCidade());
-//        mercadosFragment.setArguments(bundle);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.frame,mercadosFragment).commit();
+        fragmento(cidade);
 
+    }
+
+    private void fragmento(String cidade)
+    {
+
+        MercadoFragment blankFragment = new MercadoFragment(this);
+        Bundle bundle = new Bundle();
+        //bundle.putString("cidade", m.getCidade());
+        bundle.putString("cidade", cidade);
+        blankFragment.setArguments(bundle);
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame,blankFragment).commit();
     }
 
     @Override
@@ -157,12 +167,12 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 IntentIntegrator integrator = new IntentIntegrator(activity);
                 integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
                 integrator.setPrompt("Camera Scan");
                 integrator.setCameraId(0);
                 integrator.initiateScan();
-
             }
         });
     }

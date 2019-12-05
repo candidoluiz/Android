@@ -1,21 +1,25 @@
 package com.example.webservice;
 
+
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.adapter.MercadoAdapter;
 import com.example.dto.MercadoDto;
 import com.example.estaticas.Valores;
@@ -26,43 +30,45 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-public class MercadosFragment extends Fragment  {
+
+/**
+ * A simple {@link Fragment} subclass.
+ */
+public class MercadoFragment extends Fragment implements MercadoAdapter.OnItemClickListener {
+
     private Context context;
-    private String cidade;
     private ArrayList<MercadoDto> mExampleList;
     private RequestQueue mRequestQueue;
     private RecyclerView mRecyclerView;
-    private int mercadoId;
     private MercadoAdapter mMercadoAdapter;
+    private int mercadoId;
 
-    public MercadosFragment(){}
 
-    public MercadosFragment(Context context)
-    {
+
+
+    public MercadoFragment() {
+        // Required empty public constructor
+    }
+    public MercadoFragment(Context context){
         this.context = context;
     }
 
 
     @Override
-    public View onCreateView( LayoutInflater inflater,  ViewGroup container,  Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_mercados, container, false);
-      // TextView info = view.findViewById(R.id.teste_texto);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View v =  inflater.inflate(R.layout.fragment_mercado, container, false);
 
-       Bundle t = getArguments();
-       // info.setText("Fragmento");
-/*
         mExampleList = new ArrayList<>();
         mRequestQueue = Volley.newRequestQueue(context);
-        mRecyclerView=view.findViewById(R.id.recycle_mercado);
+        mRecyclerView=v.findViewById(R.id.recycle_mercado_fragment);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+
         parseJSON();
-*/
 
-
-        //mRecyclerView=view.findViewById(R.id.id_fragment_teste);
-
-        return view;
+        return  v;
     }
 
     private void parseJSON()
@@ -112,7 +118,7 @@ public class MercadosFragment extends Fragment  {
 
                 mMercadoAdapter = new MercadoAdapter(context,mExampleList);
                 mRecyclerView.setAdapter(mMercadoAdapter);
-                //mMercadoAdapter.setOnItemClickListener(MainActivity.this);
+                mMercadoAdapter.setOnItemClickListener((MercadoAdapter.OnItemClickListener) context);
 
 
             }
@@ -125,7 +131,7 @@ public class MercadosFragment extends Fragment  {
         });
         mRequestQueue.add(request);
     }
-/*
+
     @Override
     public void onItemClick(int position) {
 
@@ -139,6 +145,4 @@ public class MercadosFragment extends Fragment  {
         startActivity(intent);
 
     }
-    */
-
 }
