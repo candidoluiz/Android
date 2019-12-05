@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -56,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
     private  Activity activity;
     private int mercadoId;
     private TodosProdutosAdapter mTodosProdutosAdapter;
-
+    private CidadeJson city;
+    MercadoDto m;
 
 
 
@@ -67,23 +69,40 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
         setTitle("Meeting Market");
          activity = this;
 
+        mSpinner = findViewById(R.id.main_spinner_cidade);
         mRecyclerView=findViewById(R.id.recycle_mercado);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mFab = findViewById(R.id.fab_id);
-        mSpinner = findViewById(R.id.main_spinner_cidade);
+        city = new CidadeJson(MainActivity.this,mSpinner);
+        city.retornarCidades();
 
         mExampleList = new ArrayList<>();
 
         mRequestQueue = Volley.newRequestQueue(this);
 
+        //parseJSON();
 
-        CidadeJson city = new CidadeJson(MainActivity.this,mSpinner);
-        city.retornarCidades();
-        parseJSON();
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                 m  = (MercadoDto) adapterView.getSelectedItem();
+                //Toast.makeText(MainActivity.this,String.valueOf(m.getCidade()), Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         Scanear();
+
+//        MercadosFragment mercadosFragment = new MercadosFragment(this);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("cidade", m.getCidade());
+//        mercadosFragment.setArguments(bundle);
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frame,mercadosFragment).commit();
 
     }
 
@@ -241,9 +260,6 @@ private void parseJSON()
                 }
             }
 
-
-
-
             mMercadoAdapter = new MercadoAdapter(MainActivity.this,mExampleList);
             mRecyclerView.setAdapter(mMercadoAdapter);
            // mSpinnerAdapter = new SpinnerAdapter(MainActivity.this,mExampleList);
@@ -260,7 +276,6 @@ private void parseJSON()
         }
     });
     mRequestQueue.add(request);
-
     }
 
     @Override
@@ -342,5 +357,7 @@ private void parseJSON()
 
 
     }
+
+
 }
 
