@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
     MercadoDto m;
     String cidade;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,9 +69,6 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
          activity = this;
 
         mSpinner = findViewById(R.id.main_spinner_cidade);
-        mRecyclerView=findViewById(R.id.recycle_mercado);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mFab = findViewById(R.id.fab_id);
         city = new CidadeJson(MainActivity.this,mSpinner);
         city.retornarCidades();
@@ -82,14 +77,12 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
 
         mRequestQueue = Volley.newRequestQueue(this);
 
-        //parseJSON();
-
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                  m  = (MercadoDto) adapterView.getSelectedItem();
-                //Toast.makeText(MainActivity.this,String.valueOf(m.getCidade()), Toast.LENGTH_SHORT).show();
                 cidade = m.getCidade();
+                fragmento(cidade);
             }
 
             @Override
@@ -100,9 +93,6 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
 
         Scanear();
 
-//        MercadosFragment mercadosFragment = new MercadosFragment(this);
-        fragmento(cidade);
-
     }
 
     private void fragmento(String cidade)
@@ -110,7 +100,6 @@ public class MainActivity extends AppCompatActivity implements MercadoAdapter.On
 
         MercadoFragment blankFragment = new MercadoFragment(this);
         Bundle bundle = new Bundle();
-        //bundle.putString("cidade", m.getCidade());
         bundle.putString("cidade", cidade);
         blankFragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().replace(R.id.frame,blankFragment).commit();

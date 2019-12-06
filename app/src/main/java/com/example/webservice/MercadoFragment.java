@@ -42,6 +42,7 @@ public class MercadoFragment extends Fragment implements MercadoAdapter.OnItemCl
     private RecyclerView mRecyclerView;
     private MercadoAdapter mMercadoAdapter;
     private int mercadoId;
+    String cidade;
 
 
 
@@ -66,6 +67,13 @@ public class MercadoFragment extends Fragment implements MercadoAdapter.OnItemCl
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
 
+        Bundle bundle = getArguments();
+
+        if (bundle!=null)
+        {
+            cidade = bundle.getString("cidade");
+        }
+
         parseJSON();
 
         return  v;
@@ -75,7 +83,7 @@ public class MercadoFragment extends Fragment implements MercadoAdapter.OnItemCl
     {
         //String url=" http://www.mocky.io/v2/5db2443a350000b61bf54f1f";
         //String url=Valores.URL_MERCADO;
-        String url = Valores.URL_CASA+"/Mercado/rest/ws/listarMercados";
+        String url = Valores.URL_CASA+"/Mercado/rest/ws/listarMercadosPorCidade/"+cidade;
         Log.v("TAG3","create");
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
@@ -107,8 +115,6 @@ public class MercadoFragment extends Fragment implements MercadoAdapter.OnItemCl
 
                         mExampleList.add(mercadoDto);
 
-
-
                     }
 
                     catch (JSONException e) {
@@ -118,7 +124,7 @@ public class MercadoFragment extends Fragment implements MercadoAdapter.OnItemCl
 
                 mMercadoAdapter = new MercadoAdapter(context,mExampleList);
                 mRecyclerView.setAdapter(mMercadoAdapter);
-                mMercadoAdapter.setOnItemClickListener((MercadoAdapter.OnItemClickListener) context);
+                mMercadoAdapter.setOnItemClickListener(MercadoFragment.this);
 
 
             }
